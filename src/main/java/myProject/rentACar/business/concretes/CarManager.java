@@ -24,29 +24,31 @@ import java.time.LocalDateTime;
 public class CarManager implements CarService {
     private CarRepository carRepository;
 
+    private ModelMapperService modelMapperService;
+
 
     @Override
     public CreatedCarResponse add(CreateCarRequest createCarRequest) {
 
-        Car car=CarMapper.INSTANCE.carFromCreateCarRequest(createCarRequest);
+        Car car=modelMapperService.forRequest().map(createCarRequest,Car.class);
        Car createdCar= carRepository.save(car);
-        CreatedCarResponse createdCarResponse= CarMapper.INSTANCE.createdCarResponseFromCar(createdCar);
+        CreatedCarResponse createdCarResponse= modelMapperService.forResponse().map(createdCar,CreatedCarResponse.class);
         return createdCarResponse;
 
     }
 
     @Override
     public UpdatedCarResponse update(UpdateCarRequest updateBrandRequest, int id) {
-        Car car=CarMapper.INSTANCE.carFromUpdateCarRequest(updateBrandRequest);
+        Car car=modelMapperService.forRequest().map(updateBrandRequest,Car.class);
         Car updatedCar=carRepository.save(car);
-        UpdatedCarResponse updatedCarResponse=CarMapper.INSTANCE.updatedCarResponseFromCar(updatedCar);
+        UpdatedCarResponse updatedCarResponse=modelMapperService.forResponse().map(updatedCar,UpdatedCarResponse.class);
         return updatedCarResponse;
     }
 
     @Override
     public GetCarResponse getById(int id) {
         Car car=carRepository.findById(id).get();
-        GetCarResponse getCarResponse=CarMapper.INSTANCE.getCarResponseFromCar(car);
+        GetCarResponse getCarResponse=modelMapperService.forResponse().map(car,GetCarResponse.class);
         return getCarResponse;
     }
 
@@ -55,7 +57,7 @@ public class CarManager implements CarService {
         Car car=carRepository.findById(id).get();
         car.setDeletedDate(LocalDateTime.now());
         carRepository.save(car);
-        DeletedCarResponse deletedCarResponse=CarMapper.INSTANCE.deletedCarResponseFromCar(car);
+        DeletedCarResponse deletedCarResponse=modelMapperService.forResponse().map(car,DeletedCarResponse.class);
         return deletedCarResponse;
     }
 }

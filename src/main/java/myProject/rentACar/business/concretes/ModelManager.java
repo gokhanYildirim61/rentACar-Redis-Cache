@@ -11,7 +11,7 @@ import myProject.rentACar.business.dtos.responses.modelResponses.UpdatedModelRes
 import myProject.rentACar.core.utilites.ModelMapperService;
 import myProject.rentACar.dataAccess.abstracts.ModelRepository;
 import myProject.rentACar.entites.Model;
-import myProject.rentACar.mappers.ModelMapper;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +23,15 @@ public class ModelManager implements ModelService {
 
     private  ModelRepository modelRepository;
 
+    private ModelMapperService modelMapperService;
+
 
 
     @Override
     public CreatedModelResponse add(CreateModelRequest createModelRequest) {
-        Model model=ModelMapper.INSTANCE.modelFromCreateModelRequest(createModelRequest);
+        Model model=modelMapperService.forRequest().map(createModelRequest,Model.class);
         Model exitedModel = modelRepository.save(model);
-        CreatedModelResponse createdModelResponse =ModelMapper.INSTANCE.createdModelResponseFromModel(exitedModel);
+        CreatedModelResponse createdModelResponse =modelMapperService.forResponse().map(exitedModel,CreatedModelResponse.class);
         return createdModelResponse;
     }
 
@@ -39,14 +41,14 @@ public class ModelManager implements ModelService {
         model.setName(updateModelRequest.getName());
         model.setUpdatedDate(LocalDateTime.now());
         modelRepository.save(model);
-        UpdatedModelResponse updatedModelResponse=ModelMapper.INSTANCE.updatedModelResponseFromModel(model);
+        UpdatedModelResponse updatedModelResponse=modelMapperService.forResponse().map(model,UpdatedModelResponse.class);
         return updatedModelResponse;
     }
 
     @Override
     public GetModelResponse getById(int id) {
         Model model=modelRepository.findById(id).get();
-        GetModelResponse getModelResponse=ModelMapper.INSTANCE.getModelResponseFromModel(model);
+        GetModelResponse getModelResponse=modelMapperService.forResponse().map(model,GetModelResponse.class);
         return getModelResponse;
     }
 
@@ -55,7 +57,7 @@ public class ModelManager implements ModelService {
         Model model=modelRepository.findById(id).get();
         model.setDeletedDate(LocalDateTime.now());
         modelRepository.save(model);
-        DeletedModelResponse deletedModelResponse=ModelMapper.INSTANCE.deletedModelResponseFromModel(model);
+        DeletedModelResponse deletedModelResponse=modelMapperService.forResponse().map(model,DeletedModelResponse.class);
         return deletedModelResponse;
     }
 }

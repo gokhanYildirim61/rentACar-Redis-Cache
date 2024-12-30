@@ -1,6 +1,5 @@
 package myProject.rentACar;
 
-import myProject.rentACar.soap.LVSKPSPublicSoap;
 //import org.modelmapper.ModelMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
@@ -24,7 +23,5 @@ public class RentACarApplication {
 		return new ModelMapper();
 	}
 
-	@Bean
-	public LVSKPSPublicSoap getSoap(){return new LVSKPSPublicSoap();}
 
 }

@@ -12,9 +12,7 @@ import myProject.rentACar.business.rules.BrandBusinessRules;
 import myProject.rentACar.core.utilites.ModelMapperService;
 import myProject.rentACar.dataAccess.abstracts.BrandRepository;
 import myProject.rentACar.entites.Brand;
-import myProject.rentACar.mappers.BrandMapper;
-import myProject.rentACar.soap.LVSKPSPublicSoap;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 

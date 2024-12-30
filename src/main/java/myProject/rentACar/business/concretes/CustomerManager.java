@@ -23,14 +23,16 @@ public class CustomerManager implements CustomerService {
 
     private CustomerRepository customerRepository;
 
+    private ModelMapperService modelMapperService;
+
 //    private CustomerProducer customerProducer;
 
 
     @Override
     public CreatedCustomerResponse add(CreateCustomerRequest createCustomerRequest) throws Exception {
-        Customer customer=CustomerMapper.INSTANCE.customerFromCreateCustomerRequest(createCustomerRequest);
+        Customer customer=modelMapperService.forRequest().map(createCustomerRequest,Customer.class);
         Customer addedcustomer=customerRepository.save(customer);
-        CreatedCustomerResponse createdCustomerResponse =CustomerMapper.INSTANCE.createdCustomerResponseFromCustomer(addedcustomer);
+        CreatedCustomerResponse createdCustomerResponse =modelMapperService.forResponse().map(addedcustomer,CreatedCustomerResponse.class);
 
 //        CustomerCreatedEvent customerCreatedEvent=new CustomerCreatedEvent();
 //        customerCreatedEvent.setName(createCustomerRequest.getName());
