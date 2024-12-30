@@ -15,12 +15,14 @@ import myProject.rentACar.entites.Brand;
 import myProject.rentACar.entites.Car;
 import myProject.rentACar.mappers.CarMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
+@CacheConfig(cacheNames = "cars")
 public class CarManager implements CarService {
     private CarRepository carRepository;
 

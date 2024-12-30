@@ -15,10 +15,12 @@ import myProject.rentACar.entites.Customer;
 //import myProject.rentACar.kafka.producers.CustomerProducer;
 import myProject.rentACar.mappers.CustomerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
+@CacheConfig(cacheNames = "customers")
 public class CustomerManager implements CustomerService {
 
     private CustomerRepository customerRepository;

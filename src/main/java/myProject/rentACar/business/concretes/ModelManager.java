@@ -13,12 +13,14 @@ import myProject.rentACar.dataAccess.abstracts.ModelRepository;
 import myProject.rentACar.entites.Model;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
+@CacheConfig(cacheNames = "models")
 public class ModelManager implements ModelService {
 
     private  ModelRepository modelRepository;
